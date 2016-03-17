@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 
-class Post(models.Model):
+class Review(models.Model):
     author = models.ForeignKey('auth.User')
     book = models.CharField(max_length=200)
     comment = models.TextField()
@@ -18,4 +18,4 @@ class Post(models.Model):
         self.save()
 
     def __str__(self):
-        return self.comment
+        return (self.book + '::' + self.comment)
