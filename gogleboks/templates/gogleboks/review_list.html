@@ -1,4 +1,12 @@
-<html>
-<p>Hi there!</p>
-<p>I'm Here... hohoho</p>
+<div>
+  <h1>Gogle boks!</h1>
+</div>
+
+{% for review in reviews %}
+  <div>
+    <h3><a href=''>{{review.book}}</a></h3>
+    <p>Published : {{review.published_date}}</p>
+    <p>{{review.comment|linebreaks}}</p>
+  </div>
+{% endfor %}
 </html>
