@@ -18,4 +18,4 @@ class Review(models.Model):
         self.save()
 
     def __str__(self):
-        return (self.book + '::' + self.comment)
+        return (self.book + ' :: ' + self.comment)
