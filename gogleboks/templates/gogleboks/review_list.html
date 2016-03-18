@@ -1,12 +1,15 @@
-<div>
-  <h1>Gogle boks!</h1>
-</div>
+{% extends 'gogleboks/base.html' %}
 
-{% for review in reviews %}
-  <div>
-    <h3><a href=''>{{review.book}}</a></h3>
-    <p>Published : {{review.published_date}}</p>
-    <p>{{review.comment|linebreaks}}</p>
-  </div>
-{% endfor %}
-</html>
+{% block content %}
+  {% for review in reviews %}
+    <div class="review">
+      <div class="date">
+        {{ review.published_date }}
+      </div>
+      <h3>{{ review.book }}</h3>
+      <p>{{  review.comment|slice:"0:100" }}
+        {% if review.comment|length > 100 %} ...<a href="{% url 'review_detail' pk=review.pk %}">more</a> {% endif %}
+      </p>
+    </div>
+  {% endfor %}
+{% endblock content %}

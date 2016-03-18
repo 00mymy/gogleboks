@@ -1,0 +1,13 @@
+{% extends 'gogleboks/base.html' %}
+
+{% block content %}
+  <div class="review">
+    {% if post.published_date %}
+      <div class="date">
+        {{ review.published_date }}
+      </div>
+    {% endif %}
+    <h3>{{ review.book }}</h3>
+    <p>{{ review.comment|linebreaks }}</p>
+  </div>
+{% endblock content %}
