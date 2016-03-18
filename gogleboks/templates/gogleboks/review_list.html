@@ -10,6 +10,9 @@
       <p>{{  review.comment|slice:"0:100" }}
         {% if review.comment|length > 100 %} ...<a href="{% url 'review_detail' pk=review.pk %}">more</a> {% endif %}
       </p>
+      {% if user == review.author %}
+        <a class="btn btn-default" href="{% url 'review_edit' pk=review.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+      {% endif %}
     </div>
   {% endfor %}
 {% endblock content %}
