@@ -1,0 +1,30 @@
+{% extends 'gogleboks/base.html' %}
+
+{% block content %}
+  <div class="book">
+    <h3>{{ book.volumeInfo.title }}</h3>
+    {% if 'subtitle' in book.volumeInfo %} {{ book.volumeInfo.subtitle }} {% endif %}<br>
+    {% for author in book.volumeInfo.authors %}
+      {{ author }}{% if author != book.volumeInfo.authors|last %}, {% endif %}
+    {% endfor %}
+    <br>
+    {{ book.volumeInfo.publishedDate }} {{ book.volumeInfo.publisher }}
+    <p>{{ book.volumeInfo.description|linebreaks }}</p>
+  </div>
+  {% if user.is_authenticated %}
+    <a href="{% url 'review_new' bid=book.id %}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
+  {% endif %}
+  {% for review in reviews %}
+    <div class="review">
+      <p>{{  review.comment|slice:"0:100" }}
+        {% if review.comment|length > 100 %} ...<a href="{% url 'review_detail' pk=review.pk %}">more</a> {% endif %}
+      </p>
+      <div class="date">
+        {{ review.author }}, {{ review.published_date }}
+        {% if user == review.author %}
+          <a href="{% url 'review_edit' pk=review.pk %}"><span class="glyphicon glyphicon-edit"></span></a>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+{% endblock content %}

@@ -44,6 +44,10 @@ h1, h2, h3, h4 {
     margin-bottom: 70px;
 }
 
+.book {
+    margin-bottom: 70px;
+}
+
 .review h1 a, .review h1 a:visited {
     color: #000000;
 }

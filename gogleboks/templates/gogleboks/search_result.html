@@ -1,0 +1,25 @@
+{% extends 'gogleboks/base.html' %}
+
+{% block content %}
+<h1>Gogleboks Search Result</h1>
+You searched for "<b><i>{{ q }}</i></b>"
+<hr>
+{% if 'error' in s_result %}
+  <h3>Search Error!</h3>
+  <p>{{ s_result.error.message }}</p>
+{% elif s_result.totalItems == 0 %}
+  <h3>No book found!</h3>
+{% else %}
+    {% for book in s_result.items %}
+      <p>
+        <b><a href="{% url 'book_detail' bid=book.id %}">{{ book.volumeInfo.title }}</a></b>
+          {% if 'subtitle' in book.volumeInfo %} {{ book.volumeInfo.subtitle }} {% endif %}<br>
+          {% for author in book.volumeInfo.authors %}
+            {{ author }}{% if author != book.volumeInfo.authors|last %}, {% endif %}
+          {% endfor %}
+          [<i>{{ book.volumeInfo.publishedDate }}</i>]
+      </p>
+    {% endfor %}
+{% endif %}
+
+{% endblock content %}
