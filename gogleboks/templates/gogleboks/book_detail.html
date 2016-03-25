@@ -1,30 +1,98 @@
 {% extends 'gogleboks/base.html' %}
 
 {% block content %}
-  <div class="book">
-    <h3>{{ book.volumeInfo.title }}</h3>
-    {% if 'subtitle' in book.volumeInfo %} {{ book.volumeInfo.subtitle }} {% endif %}<br>
-    {% for author in book.volumeInfo.authors %}
-      {{ author }}{% if author != book.volumeInfo.authors|last %}, {% endif %}
-    {% endfor %}
-    <br>
-    {{ book.volumeInfo.publishedDate }} {{ book.volumeInfo.publisher }}
-    <p>{{ book.volumeInfo.description|linebreaks }}</p>
-  </div>
-  {% if user.is_authenticated %}
-    <a href="{% url 'review_new' bid=book.id %}" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></a>
-  {% endif %}
-  {% for review in reviews %}
-    <div class="review">
-      <p>{{  review.comment|slice:"0:100" }}
-        {% if review.comment|length > 100 %} ...<a href="{% url 'review_detail' pk=review.pk %}">more</a> {% endif %}
-      </p>
-      <div class="date">
-        {{ review.author }}, {{ review.published_date }}
-        {% if user == review.author %}
-          <a href="{% url 'review_edit' pk=review.pk %}"><span class="glyphicon glyphicon-edit"></span></a>
+
+  <div class="col-md-10" valign=top>
+      <div class="book">
+        <h3>{{ book.volumeInfo.title }}</h3>
+        {% if 'subtitle' in book.volumeInfo %} {{ book.volumeInfo.subtitle }} {% endif %}<br>
+        {% if 'authors' in book.volumeInfo %}
+          {% for author in book.volumeInfo.authors %}
+            {{ author }}{% if author != book.volumeInfo.authors|last %}, {% endif %}
+          {% endfor %}
+        {% endif %}
+        <br>
+        <div>{{ book.volumeInfo.publishedDate }} {{ book.volumeInfo.publisher }}</div>
+        <br>
+        <div style="clear: left;">
+          <div style="float: left; padding:10px;"><img src='{{ book.volumeInfo.imageLinks.smallThumbnail }}'></div>
+          <div style="font-size:10pt; padding:10px;">{{ book.volumeInfo.description|slice:"0:500" }}
+            {% if  book.volumeInfo.description|length > 500 %} ... {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div>
+        {% load humanize %}
+        <strike>{{book.saleInfo.listPrice.amount|intcomma}}</strike> {{book.saleInfo.retailPrice.amount|intcomma}} {{book.saleInfo.listPrice.currencyCode}}
+
+        <a href="http://www.kyobobook.co.kr/product/detailViewKor.laf?barcode={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">교보문고</a>
+        | <a href="http://www.bandinlunis.com/search/search.do?q={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">반디앤루니스</a>
+        | <a href="http://aladin.co.kr/shop/wproduct.aspx?isbn={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">알라딘</a>
+        | <a href="http://bsearch.interpark.com/dsearch/book.jsp?query={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">인터파크</a>
+        | <a href="http://www.yes24.com/SearchCorner/Search?mstr_query=&query={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">Yes24</a>
+        | <a href="http://www.libro.co.kr/goods/goodsList?kwd={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">리브로</a>
+      </div>
+
+      <div style="clear: left;">
+        <hr>
+        {% if user.is_authenticated %}
+          <a href="{% url 'review_new' bid=book.id %}" class="btn btn-default btn-sm">Add review</a>
         {% endif %}
       </div>
+
+      {% if reviews.count == 0 %}
+        <div class="review">첫 번째 리뷰를 남겨 주시겠음?</div>
+      {% endif %}
+
+      {% for review in reviews %}
+        <div class="review">
+          {{  review.comment|slice:"0:100" }}
+          {% if review.comment|length > 100 %} ...<a href="{% url 'review_detail' pk=review.pk %}">more</a> {% endif %}
+
+          <div class="date">
+            {% for i  in '12345' %}
+              {% if forloop.counter <= review.score %} &#9733;
+              {% else %} &#9734;
+              {% endif %}
+            {% endfor %}
+            / {{ review.reviewer }}, {{ review.created_date }}
+            {% if user == review.reviewer %}
+              <a href="{% url 'review_edit' pk=review.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+              <a href="{% url 'review_delete' pk=review.pk %}" onclick="return confirm('Are you sure?\n정말 삭제하시겠습니까?')"><span class="glyphicon glyphicon-trash"></span></a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+</div>
+
+<div class="col-md-2">
+  <div class="panel panel-default">
+    <div class="panel-heading">이런 책은 어떠심?</div>
+    <div class="panel-body">
+      {% if morebooks.totalItems <= 1 %}
+        읍써!
+      {% endif %}
+      {% for mbook in morebooks.items %}
+        {% if mbook.id != book.id %}
+          <div style="float:left;">
+            <div style="padding:10px;"><img src='{{ mbook.volumeInfo.imageLinks.smallThumbnail }}' width=56>
+            </div>
+            <div style="font-size:10pt">
+              <a href="{% url 'book_detail' bid=mbook.id %}">{{ mbook.volumeInfo.title }}</a>
+              {# }{% if 'subtitle' in mbook.volumeInfo %} {{ mbook.volumeInfo.subtitle }} {% endif %} #}
+              <br>
+              <div class="author">
+                {% for author in mbook.volumeInfo.authors %}
+                  {{ author }}{% if author != mbook.volumeInfo.authors|last %}, {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
     </div>
-  {% endfor %}
+  </div>
+</div>
+
 {% endblock content %}

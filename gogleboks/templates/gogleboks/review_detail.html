@@ -2,12 +2,16 @@
 
 {% block content %}
   <div class="review">
-    {% if review.published_date %}
+    {% if review.created_date %}
       <div class="date">
-        {{ review.published_date }}
+        {{ review.created_date }}
       </div>
     {% endif %}
-    <h3>{{ review.book }}</h3>
-    <p>{{ review.comment|linebreaks }}</p>
+    <h3>{{ review.title }} <small>{{ review.subtitle }}</small></h3>
+    <i>{{ review.authors }}</i>
+    <br>{{ review.score }} / {{ review.reviwer }} ({{ review.created_date }})
+    <p>
+    {{ review.comment|linebreaks }}
+    </p>
   </div>
 {% endblock content %}

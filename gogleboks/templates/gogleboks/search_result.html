@@ -1,8 +1,7 @@
 {% extends 'gogleboks/base.html' %}
 
 {% block content %}
-<h1>Gogleboks Search Result</h1>
-You searched for "<b><i>{{ q }}</i></b>"
+검색... "<b><i>{{ q }}</i></b>"
 <hr>
 {% if 'error' in s_result %}
   <h3>Search Error!</h3>
@@ -10,16 +9,30 @@ You searched for "<b><i>{{ q }}</i></b>"
 {% elif s_result.totalItems == 0 %}
   <h3>No book found!</h3>
 {% else %}
+  <table border=0>
     {% for book in s_result.items %}
-      <p>
+      <tr>
+        <td style="padding:10px;"><img src='{{ book.volumeInfo.imageLinks.smallThumbnail }}' width=56>
+        </td>
+        <td style="padding:10px;">
         <b><a href="{% url 'book_detail' bid=book.id %}">{{ book.volumeInfo.title }}</a></b>
-          {% if 'subtitle' in book.volumeInfo %} {{ book.volumeInfo.subtitle }} {% endif %}<br>
-          {% for author in book.volumeInfo.authors %}
+          {% if 'subtitle' in book.volumeInfo %} {{ book.volumeInfo.subtitle }} {% endif %}
+          <br>
+          <div class="author">
+            {% for author in book.volumeInfo.authors %}
             {{ author }}{% if author != book.volumeInfo.authors|last %}, {% endif %}
-          {% endfor %}
-          [<i>{{ book.volumeInfo.publishedDate }}</i>]
-      </p>
+            {% endfor %}
+            (<i>{{ book.volumeInfo.publishedDate }}</i>)
+          </div>
+
+          <div class="description">
+          {{ book.volumeInfo.description|slice:"0:100" }}
+            {% if  book.volumeInfo.description|length > 100 %} ... {% endif %}
+          </div>
+        </td>
+      </tr>
     {% endfor %}
+  </table>
 {% endif %}
 
 {% endblock content %}

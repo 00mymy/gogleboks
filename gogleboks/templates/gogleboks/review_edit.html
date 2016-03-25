@@ -1,8 +1,16 @@
+
 {% extends 'gogleboks/base.html' %}
 
 {% block content %}
-  <h3>Your Review</h3>
+  <h3>{{ title }}</h3>
+    피가되고 살이되는 리뷰를~
   <form method='POST' class='review-form'>{% csrf_token %}
+    <label class="radio-inline"><input type="radio" name="score" value="1">1</label>
+    <label class="radio-inline"><input type="radio" name="score" value="2">2</label>
+    <label class="radio-inline"><input type="radio" name="score" value="3">3</label>
+    <label class="radio-inline"><input type="radio" name="score" value="4">4</label>
+    <label class="radio-inline"><input type="radio" name="score" value="5">5</label>
+
         {{ form.as_p }}
         <button type="submit" class="save btn btn-default">Save</button>
   </form>
