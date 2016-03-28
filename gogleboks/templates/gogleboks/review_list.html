@@ -1,7 +1,7 @@
 {% extends 'gogleboks/base.html' %}
 
 {% block content %}
-<div class="col-md-10" valign=top>
+
   {% for review in reviews %}
     <div class="review">
       <b><a href="{% url 'book_detail' bid=review.bid %}">{{ review.title }}</a></b>
@@ -27,5 +27,5 @@
       </div>
     </div>
   {% endfor %}
-</div>
+
 {% endblock content %}
