@@ -24,14 +24,19 @@
 
       <div>
         {% load humanize %}
-        <strike>{{book.saleInfo.listPrice.amount|intcomma}}</strike> {{book.saleInfo.retailPrice.amount|intcomma}} {{book.saleInfo.listPrice.currencyCode}}
-
+        <span style="color:darkgray"><strike>{{book.saleInfo.listPrice.amount|floatformat|intcomma}}</strike></span>
+        {{book.saleInfo.retailPrice.amount|floatformat|intcomma}}
+        {{book.saleInfo.listPrice.currencyCode}}
+        <br>
         <a href="http://www.kyobobook.co.kr/product/detailViewKor.laf?barcode={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">교보문고</a>
         | <a href="http://www.bandinlunis.com/search/search.do?q={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">반디앤루니스</a>
         | <a href="http://aladin.co.kr/shop/wproduct.aspx?isbn={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">알라딘</a>
         | <a href="http://bsearch.interpark.com/dsearch/book.jsp?query={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">인터파크</a>
         | <a href="http://www.yes24.com/SearchCorner/Search?mstr_query=&query={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">Yes24</a>
         | <a href="http://www.libro.co.kr/goods/goodsList?kwd={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">리브로</a>
+        <br>
+        <a href="{{book.volumeInfo.infoLink}}" target="_blank">Google Books</a>
+        | <a href="http://www.amazon.com/gp/search?index=books&linkCode=qs&keywords={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">Amazon</a>
       </div>
 
       <div style="clear: left;">

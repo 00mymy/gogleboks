@@ -49,7 +49,7 @@ def review_edit(request, pk):
             return redirect('gogleboks.views.book_detail', bid=review.bid)
     else:
         form = ReviewForm(instance=review)
-    return render(request, 'gogleboks/review_edit.html', {'form': form})
+    return render(request, 'gogleboks/review_edit.html', {'form': form, 'title':review.title, 'score':review.score})
 
 def review_delete(request, pk):
     review = get_object_or_404(Review, pk=pk)
