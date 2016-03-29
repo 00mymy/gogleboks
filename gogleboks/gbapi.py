@@ -11,14 +11,14 @@ import json
 #from bs4 import BeautifulSoup
 #import urllib
 
-search_url = 'https://www.googleapis.com/books/v1/volumes?q='
+search_url = 'https://www.googleapis.com/books/v1/volumes'
 search_opt = '&maxResults=10&printType=books'
 
 detail_url = 'https://www.googleapis.com/books/v1/volumes/'
 detail_opt = ''
 
-def getGogleBokSearch(search_kw):
-    data = requests.get(search_url + search_kw + search_opt)
+def getGogleBokSearch(search_kw, startIndex):
+    data = requests.get(search_url + '?q=' + search_kw + '&startIndex=' + str(startIndex) + search_opt)
     binary = data.text
     output = json.loads(binary)
     return output
@@ -30,7 +30,7 @@ def getGogleBokDetail(bid):
     return output
 
 def getGogleBokSearchMoreabout(search_kw):
-    data = requests.get(search_url + search_kw + search_opt)
+    data = requests.get(search_url + '?q=' + search_kw + search_opt)
     binary = data.text
     output = json.loads(binary)
     return output

@@ -33,6 +33,17 @@
       </tr>
     {% endfor %}
   </table>
+  {% load mathfilters %}
+  <nav>
+    <ul class="pager">
+      {% if sx|sub:10 >= 0 %}
+        <li class="previous"><a href="{% url 'book_search' %}?q={{q}}&sx={{sx|sub:10}}"><span aria-hidden="true">&larr;</span> Previous</a></li>
+      {% endif %}
+      {% if sx|add:10 < s_result.totalItems %}
+        <li class="next"><a href="{% url 'book_search' %}?q={{q}}&sx={{sx|add:10}}">Next <span aria-hidden="true">&rarr;</span></a></li>
+      {% endif %}
+    </ul>
+  </nav>
 {% endif %}
 
 {% endblock content %}

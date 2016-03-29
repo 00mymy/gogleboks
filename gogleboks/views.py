@@ -56,13 +56,17 @@ def review_delete(request, pk):
     review.delete()
     return redirect('gogleboks.views.book_detail', bid=review.bid)
 
-def book_search(request):
+def book_search(request, sx=0):
     q = ''
+
     if 'q' in request.GET:
         q = request.GET['q']
 
-    s_result = getGogleBokSearch(q)
-    return render(request, 'gogleboks/search_result.html', {'q':q, 's_result': s_result} )
+    if 'sx' in request.GET:
+        sx = int(request.GET['sx'])
+
+    s_result = getGogleBokSearch(q, sx)
+    return render(request, 'gogleboks/search_result.html', {'q':q, 'sx':sx, 's_result': s_result} )
 
 def book_detail(request, bid):
     book = getGogleBokDetail(bid=bid)
