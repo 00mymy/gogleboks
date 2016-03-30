@@ -77,3 +77,6 @@ def book_detail(request, bid):
         morebooks = None
     return render(request, 'gogleboks/book_detail.html', {'book':book, 'reviews':reviews, 'morebooks':morebooks})
     #return render(request, 'gogleboks/book_detail.html', {'book':book, 'reviews':reviews})
+
+def book_viewer(request, bid):
+    return render(request, 'gogleboks/book_viewer.html', {'bid':bid})

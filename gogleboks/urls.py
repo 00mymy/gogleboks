@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^review/(?P<pk>[0-9]+)/delete/$', views.review_delete, name='review_delete'),
     url(r'^search$', views.book_search, name='book_search'),
     url(r'^book/(?P<bid>[a-zA-Z0-9-_]+)/$', views.book_detail, name='book_detail'),
+    url(r'^book/viewer/(?P<bid>[a-zA-Z0-9-_]+)/$', views.book_viewer, name='book_viewer'),
 ]
