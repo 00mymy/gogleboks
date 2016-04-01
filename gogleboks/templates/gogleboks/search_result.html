@@ -1,4 +1,5 @@
 {% extends 'gogleboks/base.html' %}
+{% load mathfilters %}
 
 {% block content %}
 검색... "<b><i>{{ q }}</i></b>"
@@ -29,11 +30,14 @@
           {{ book.volumeInfo.description|slice:"0:100" }}
             {% if  book.volumeInfo.description|length > 100 %} ... {% endif %}
           </div>
+          {% if 'averageRating' in book.volumeInfo %}
+            <div class="author"><script type="text/javascript">rate({{book.volumeInfo.averageRating|div:5|mul:100}});</script>
+              ({{ book.volumeInfo.ratingsCount }})</div>
+          {% endif %}
         </td>
       </tr>
     {% endfor %}
   </table>
-  {% load mathfilters %}
   <nav>
     <ul class="pager">
       {% if sx|sub:10 >= 0 %}

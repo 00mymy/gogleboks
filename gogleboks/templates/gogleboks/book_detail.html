@@ -1,4 +1,6 @@
 {% extends 'gogleboks/base.html' %}
+{% load mathfilters %}
+{% load humanize %}
 
 {% block content %}
 
@@ -23,7 +25,10 @@
       </div>
 
       <div>
-        {% load humanize %}
+        {% if 'averageRating' in book.volumeInfo %}
+          <div class="author"><script type="text/javascript">rate({{book.volumeInfo.averageRating|div:5|mul:100}});</script>
+            ({{ book.volumeInfo.ratingsCount }})</div>
+        {% endif %}
         <span style="color:darkgray"><strike>{{book.saleInfo.listPrice.amount|floatformat|intcomma}}</strike></span>
         {{book.saleInfo.retailPrice.amount|floatformat|intcomma}}
         {{book.saleInfo.listPrice.currencyCode}}
@@ -45,12 +50,11 @@
         <hr>
         {% if user.is_authenticated %}
           <a href="{% url 'review_new' bid=book.id %}" class="btn btn-primary btn-sm">Add review</a>
+          {% if reviews.count == 0 %}
+            <div class="review">첫 번째 리뷰를 남겨 주시겠음?</div>
+          {% endif %}
         {% endif %}
       </div>
-
-      {% if reviews.count == 0 %}
-        <div class="review">첫 번째 리뷰를 남겨 주시겠음?</div>
-      {% endif %}
 
       {% for review in reviews %}
         <div class="review">
