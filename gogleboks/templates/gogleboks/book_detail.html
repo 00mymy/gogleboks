@@ -35,6 +35,10 @@
         {% if book.accessInfo.accessViewStatus != 'NONE' %}
           <a href="{% url 'book_viewer' bid=book.id %}" class="btn btn-default btn-xs">{{book.accessInfo.accessViewStatus}}</a>
         {% endif %}
+        <div class="fb-like"
+          data-show-faces="true"
+          data-share="true">
+        </div>
         <br>
           <a href="http://www.bandinlunis.com/search/search.do?q={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">반디앤루니스</a>
         | <a href="http://bsearch.interpark.com/dsearch/book.jsp?query={{book.volumeInfo.industryIdentifiers.1.identifier}}" target="_blank">인터파크</a>
