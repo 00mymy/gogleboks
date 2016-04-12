@@ -24,6 +24,21 @@
         </div>
       </div>
 
+      <script type="text/javascript">
+        document.getElementsByTagName('head')[0].innerHTML +=
+          '<meta property="fb:app_id" content="1707315739549232" />';
+        document.getElementsByTagName('head')[0].innerHTML +=
+          '<meta property="og:type" content="article" />';
+        document.getElementsByTagName('head')[0].innerHTML +=
+          '<meta property="og:title" content="{{ book.volumeInfo.title }}" />';
+        document.getElementsByTagName('head')[0].innerHTML +=
+          '<meta property="og:url" content="{{ request.build_absolute_uri }}" />';
+        document.getElementsByTagName('head')[0].innerHTML +=
+          '<meta property="og:description" content="{{ book.volumeInfo.description|slice:'0:500' }}" />';
+        document.getElementsByTagName('head')[0].innerHTML +=
+          '<meta property="og:image" content="{{ book.volumeInfo.imageLinks.smallThumbnail }}" />';
+      </script>
+
       <div>
         {% if 'averageRating' in book.volumeInfo %}
           <div class="author"><script type="text/javascript">rate({{book.volumeInfo.averageRating|div:5|mul:100}});</script>
