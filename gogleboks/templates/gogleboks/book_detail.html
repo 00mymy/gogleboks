@@ -7,7 +7,7 @@
   <meta property="og:type" content="article" />
   <meta property="og:title" content="{{ book.volumeInfo.title }}" />
   <meta property="og:url" content="{{ request.build_absolute_uri }}" />
-  <meta property="og:description" content="{{ book.volumeInfo.description|slice:'0:500' }}" />
+  <meta property="og:description" content="{{ book.volumeInfo.description|striptags|slice:'0:500' }}" />
   <meta property="og:image" content="{{ book.volumeInfo.imageLinks.smallThumbnail }}" />
   <meta property="og:image:width" content="56" />
 {% endblock og_tag %}
@@ -28,7 +28,7 @@
         <br>
         <div style="clear: left;">
           <div style="float: left; padding:10px;"><img src='{{ book.volumeInfo.imageLinks.smallThumbnail }}'></div>
-          <div style="font-size:10pt; padding:10px;">{{ book.volumeInfo.description|slice:"0:500" }}
+          <div style="font-size:10pt; padding:10px;">{{ book.volumeInfo.description|striptags|slice:"0:500" }}
             {% if  book.volumeInfo.description|length > 500 %} ... {% endif %}
           </div>
         </div>
