@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form method="post" action=".">{% csrf_token %}
+        <table border="0" cellpadding="5">
+            {% if form.errors %}
+              <tr class="alert alert-danger" role="alert"><td colspan="2">{{ form.errors }}</td></tr>
+            {% endif %}
+            {% if request.GET.reg_ok %}
+              <tr class="alert alert-success" role="alert"><td colspan="2">Registration successful! Please login.</td></tr>
+            {% endif %}
+            <tr><td>Username</td><td>{{ form.username }}</td></tr>
+            <tr><td>Password</td><td>{{ form.password }}</td></tr>
+            <tr><td colspan="2"><input type="submit" value="Login" class="btn btn-default form-control" /></td></tr>
+            <tr><td colspan="2"><a href="/register">Register</a></td></tr>
+        </table>
+        <input type="hidden" name="next" value="/" />
+    </form>
+{% endblock %}

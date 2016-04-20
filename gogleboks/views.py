@@ -3,8 +3,15 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.utils import timezone
 from .models import Review
-from .forms import ReviewForm
+from .forms import *
 from .gbapi import *
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+from django.views.decorators.csrf import csrf_protect
+from django.shortcuts import render_to_response
+from django.http import HttpResponseRedirect
+from django.template import RequestContext
 
 # Create your views here.
 def review_list(request):
@@ -80,3 +87,56 @@ def book_detail(request, bid):
 
 def book_viewer(request, bid):
     return render(request, 'gogleboks/book_viewer.html', {'bid':bid})
+
+
+@csrf_protect
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = User.objects.create_user(
+            username=form.cleaned_data['username'],
+            password=form.cleaned_data['password1'],
+            email=form.cleaned_data['email']
+            )
+            #return HttpResponseRedirect('/register/success/')
+            return HttpResponseRedirect('/accounts/login/?reg_ok=Y')
+    else:
+        form = RegistrationForm()
+        variables = RequestContext(request, {
+            'form': form
+            })
+
+        return render_to_response(
+            'registration/register.html',
+            variables,
+            )
+
+def reg_edit(request):
+    user = request.user
+    if request.method == "POST":
+        form = RegistrationForm(request.POST)
+        form.username = 'xxx'
+        if form.is_valid():
+            print('3. =============================')
+            #user = form.save(commit=False)
+            #user.username = form.cleaned_data['username']
+            user = User.objects.get(pk=user.id)
+            user.email = form.cleaned_data['email']
+            user.password = form.cleaned_data['password1']
+            print('4. =============================')
+            user.save()
+            print('5. =============================')
+            return HttpResponseRedirect('/')
+    else:
+        form = RegistrationForm(instance=user)
+        #return render(request, 'registration/register.html', {'form': form})
+        variables = RequestContext(request, {
+                    'form': form
+                    })
+        return render_to_response('registration/register.html', variables,)
+
+
+def logout_page(request):
+    logout(request)
+    return HttpResponseRedirect('/')

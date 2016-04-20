@@ -62,3 +62,16 @@ h1, h2, h3, h4 {
 .review h1 a, .review h1 a:visited {
     color: #000000;
 }
+
+/* cellpadding */
+th, td { padding: 5px; }
+
+/* cellspacing */
+table { border-collapse: separate; border-spacing: 5px; } /* cellspacing="5" */
+table { border-collapse: collapse; border-spacing: 0; }   /* cellspacing="0" */
+
+/* valign */
+th, td { vertical-align: top; }
+
+/* align (center) */
+table { margin: 0 left; }

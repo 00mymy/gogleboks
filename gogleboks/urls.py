@@ -17,4 +17,9 @@ urlpatterns = [
     url(r'^search$', views.book_search, name='book_search'),
     url(r'^book/(?P<bid>[a-zA-Z0-9-_]+)/$', views.book_detail, name='book_detail'),
     url(r'^book/viewer/(?P<bid>[a-zA-Z0-9-_]+)/$', views.book_viewer, name='book_viewer'),
+    #url(r'^logout/$', views.logout_page, name='logout'),
+    #url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'), # If user is not login it will redirect to login page
+    #url(r'^register/$', views.register, name='register'),
+    #url(r'^register/edit/$', views.reg_edit, name='reg_edit'),
+
 ]
