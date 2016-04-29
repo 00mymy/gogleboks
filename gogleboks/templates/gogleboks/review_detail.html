@@ -13,5 +13,17 @@
     <p>
     {{ review.comment|linebreaks }}
     </p>
+    <div class="date">
+      {% for i  in '12345' %}
+        {% if forloop.counter <= review.score %} &#9733;
+        {% else %} &#9734;
+        {% endif %}
+      {% endfor %}
+      / {{ review.reviewer }}, {{ review.created_date }}
+      {% if user == review.reviewer %}
+        <a href="{% url 'review_edit' pk=review.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a href="{% url 'review_delete' pk=review.pk %}" onclick="return confirm('Are you sure?\n정말 삭제하시겠습니까?')"><span class="glyphicon glyphicon-trash"></span></a>
+      {% endif %}
+    </div>
   </div>
 {% endblock content %}

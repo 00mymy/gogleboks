@@ -88,7 +88,7 @@ def book_detail(request, bid):
 def book_viewer(request, bid):
     return render(request, 'gogleboks/book_viewer.html', {'bid':bid})
 
-
+'''
 @csrf_protect
 def register(request):
     if request.method == 'POST':
@@ -140,3 +140,4 @@ def reg_edit(request):
 def logout_page(request):
     logout(request)
     return HttpResponseRedirect('/')
+'''
